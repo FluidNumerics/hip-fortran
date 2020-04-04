@@ -3,6 +3,14 @@ MODULE hip_fortran
 IMPLICIT NONE
 
 
+  INTERFACE
+    FUNCTION hipGetErrorName(hipError) bind(c, name="hipGetErrorName")
+      USE iso_c_binding
+      USE hip_enum
+      INTEGER(KIND(hipSuccess)) :: hipError
+      CHARACTER(KIND=c_char) :: hipGetErrorName
+    END FUNCTION hipGetErrorName
+  END INTERFACE
 
   INTERFACE
     FUNCTION hipGetErrorString(hipError) bind(c, name="hipGetErrorString")
@@ -40,7 +48,7 @@ CONTAINS
     IMPLICIT NONE
     INTEGER(KIND(hipSuccess)) :: hipError
       IF(hipError /= hipSuccess)THEN
-        WRITE(*,*) "HIP ERROR : ", hipGetErrorString(hipError)
+        WRITE(*,*) "HIP ERROR:", hipGetErrorName(hipError),":", hipGetErrorString(hipError)
         CALL EXIT(hipError)
       ENDIF
   END SUBROUTINE hipFortran
