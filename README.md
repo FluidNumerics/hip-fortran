@@ -78,12 +78,13 @@ IMPLICIT NONE
     array = 10.0D0
  
     ! Allocate device array
-    CALL hfMalloc(array_dev, SIZEOF(array))
+    CALL hfMalloc(a_dev, SIZEOF(a))
+    CALL hfMalloc(b_dev, SIZEOF(b))
 
     ! Copy host memory to device memory
     CALL hfMemcpy(a_dev, c_loc(a), SIZEOF(a), hipMemcpyHostToDevice)
 
-    CALL myRoutine(array_dev,b_dev,N) 
+    CALL myRoutine(a_dev,b_dev,N) 
 
     CALL hfMemcpy(c_loc(b), b_dev, SIZEOF(b), hipMemcpyDeviceToHost)
 
