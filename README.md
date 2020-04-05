@@ -60,6 +60,7 @@ IMPLICIT NONE
 END PROGRAM main
 ```
 *my_module.f03*
+```fortran
 MODULE my_module
 
 IMPLICIT NONE
@@ -75,6 +76,7 @@ IMPLICIT NONE
 
 END MODULE my_module
 ```
+
 *my_module.cpp*
 ```c
 #include <hip/hip_runtime.h>
