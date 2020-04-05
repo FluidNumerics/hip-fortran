@@ -25,6 +25,27 @@ A simple example program is shown that demonstrates how to :
 * Create device (GPU) pointers
 * Copy data from host to device and device to host
 * How to launch a simple HIP kernel from Fortran
+* How to build a hip-fortran application
+
+In this example, we have three files
+* `main.f03` : The main Fortran program
+* `my_module.f03` : A Fortran module that defines the kernel interface
+* `my_module_hip.cpp` : The C++ code that defines the HIP Kernel and the kernel wrapper to launch the kernel
+
+Assuming you
+* Have installed hip-fortran under `/opt/hip-fortran`,
+* Are using the gfortran compiler,
+* Are using the included modulefile,
+* Have the hipcc compiler and all necessary dependencies,
+ 
+You can build this application with
+```
+gfortran ${HIPFORTRAN_INCLUDE} -c my_module.f03
+gfortran ${HIPFORTRAN_INCLUDE} -c main.f03
+hipcc -c my_module_hip.cpp
+hipcc -lgfortran main.o my_module.o my_module_hip.o ${HIPFORTRAN_INCLUDE} ${HIPFORTRAN_LIB} -o hip_test 
+```
+
 *main.f03*
 ```fortran
 PROGRAM main
@@ -77,7 +98,7 @@ IMPLICIT NONE
 END MODULE my_module
 ```
 
-*my_module.cpp*
+*my_module_hip.cpp*
 ```c
 #include <hip/hip_runtime.h>
 
@@ -100,3 +121,4 @@ extern "C"
     hipLaunchKernelGGL((myroutine_hipkernel), dim3(blockCount), dim3(threadPerBlock, 0, 0, *a, *b, n);
   }
 }
+```
