@@ -130,9 +130,9 @@ extern "C"
   void myroutine(double **a, double **b, int n)
   {
     int threadPerBlock = 256;
-    int blockCount = (n+1)*(n+1)/256 
+    int blockCount = (n+1)*(n+1)/256; 
 
-    hipLaunchKernelGGL((myroutine_hipkernel), dim3(blockCount), dim3(threadPerBlock, 0, 0, *a, *b, n);
+    hipLaunchKernelGGL((myroutine_hipkernel), dim3(blockCount), dim3(threadPerBlock), 0, 0, *a, *b, n);
   }
 }
 ```
