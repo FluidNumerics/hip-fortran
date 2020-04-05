@@ -584,7 +584,7 @@ PACKAGE_STRING='hip-fortran 0.0.0'
 PACKAGE_BUGREPORT='joe@fluidnumerics.com'
 PACKAGE_URL=''
 
-ac_default_prefix=/usr/local/hip-fortran
+ac_default_prefix=/opt/hip-fortran
 ac_subst_vars='am__EXEEXT_FALSE
 am__EXEEXT_TRUE
 LTLIBOBJS
