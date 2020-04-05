@@ -5,7 +5,7 @@ USE hip_fortran
 IMPLICIT NONE
 
 
-  REAL(8) :: array(:,:)
+  REAL(8), ALLOCATABLE, TARGET :: array(:,:)
   TYPE(c_ptr) :: array_dev = c_null_ptr
 
     ! Allocate and initialize host array
@@ -16,7 +16,8 @@ IMPLICIT NONE
     CALL hfMalloc(array_dev, SIZEOF(array))
 
     ! Copy host memory to device memory
-    CALL hfMemcpy(array_dev, array, SIZEOF(array), hipMemcpyHostToDevice)
+    ! array_dev = array
+    CALL hfMemcpy(array_dev, c_loc(array), SIZEOF(array), hipMemcpyHostToDevice)
 
     DEALLOCATE(array)
 

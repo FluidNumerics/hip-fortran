@@ -1,5 +1,6 @@
 
+FC=gfortran-8
 
 memcpy_test:
-	gfortran -I/usr/local/hip-fortran/include -c memcpy_test.f03
-	hipcc -lgfortran memcpy_test.o 
+	${FC} ${HIPFORTRAN_INCLUDE} -c memcpy_test.f03
+	hipcc -lgfortran memcpy_test.o ${HIPFORTRAN_INCLUDE} ${HIPFORTRAN_LIB} -o $@  
