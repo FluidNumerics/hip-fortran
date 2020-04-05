@@ -12,6 +12,19 @@ sudo make install
 ```
 An environment module file is included under `modulefiles/`. This modulefile assumes the default install path (`/opt/hip-fortran`) and defines `HIPFORTRAN_INCLUDE` and `HIPFORTRAN_LIB`.
 
+## Docker
+You can obtain the latest Docker image build of hip-fortran with
+```
+docker pull fluidnumerics/hip-fortran:latest
+```
+Inside this container image: 
+* hip-fortran is installed under `/opt/hip-fortran`
+* `HIPFORTRAN_INCLUDE` is set to `/opt/hip-fortran/include`
+* `HIPFORTRAN_LIB` is set to `/opt/hip-fortran/lib`
+
+This repository also contains a [Dockerfile](./Dockerfile) that you can use to build the image on other branches of this repository.
+If you are working with Google Cloud Build, a [cloudbuild.yaml](./cloudbuild.yaml) file is also included.
+
 ## Usage
 Example usage of hip-fortran can be found under [`test/`](test/).
 

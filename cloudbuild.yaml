@@ -1,0 +1,17 @@
+# In this directory, run the following command to build this builder.
+# $ gcloud builds submit . --config=cloudbuild.yaml
+
+steps:
+
+- id : Build hip-fortran
+  name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--build-arg'
+  - 'version=0.0.1'
+  - '-t'
+  - 'gcr.io/$PROJECT_ID/hip-fortran:latest'
+  - '.'
+
+images:
+- 'gcr.io/$PROJECT_ID/hip-fortran:latest'
