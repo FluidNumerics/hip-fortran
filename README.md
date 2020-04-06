@@ -92,11 +92,11 @@ IMPLICIT NONE
     CALL hfMalloc(b_dev, SIZEOF(b))
 
     ! Copy host memory to device memory
-    CALL hfMemcpy(a_dev, c_loc(a), SIZEOF(a), hipMemcpyHostToDevice)
+    CALL hipFortran(hipMemcpy(a_dev, c_loc(a), SIZEOF(a), hipMemcpyHostToDevice))
 
     CALL myRoutine(a_dev,b_dev,N) 
 
-    CALL hfMemcpy(c_loc(b), b_dev, SIZEOF(b), hipMemcpyDeviceToHost)
+    CALL hipFortran(hipMemcpy(c_loc(b), b_dev, SIZEOF(b), hipMemcpyDeviceToHost))
 
     CALL hfFree(a_dev)
     CALL hfFree(b_dev)
