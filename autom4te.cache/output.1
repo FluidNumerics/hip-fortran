@@ -683,6 +683,7 @@ ac_user_opts='
 enable_option_checking
 enable_silent_rules
 enable_dependency_tracking
+enable_nvcc
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1325,6 +1326,8 @@ Optional Features:
                           do not reject slow dependency extractors
   --disable-dependency-tracking 
                           speeds up one-time build
+  --enable-nvcc, default:no 
+                          
 
 Some influential environment variables:
   CC          C compiler command
@@ -3979,6 +3982,18 @@ ac_compile='$FC -c $FCFLAGS $ac_fcflags_srcext conftest.$ac_ext >&5'
 ac_link='$FC -o conftest$ac_exeext $FCFLAGS $LDFLAGS $ac_fcflags_srcext conftest.$ac_ext $LIBS >&5'
 ac_compiler_gnu=$ac_cv_fc_compiler_gnu
 
+
+# Enable nvcc build for Nvidia systems
+@%:@ Check whether --enable-nvcc was given.
+if test "${enable_nvcc+set}" = set; then :
+  enableval=$enable_nvcc; 
+fi
+
+if test "x$enable_nvcc" = "xyes"; then :
+  FCFLAGS+=" -DNVCC"
+else
+  FCFLAGS+=" -DHCC"
+fi
 
 ac_config_files="$ac_config_files Makefile src/Makefile"
 

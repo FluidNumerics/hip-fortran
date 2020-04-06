@@ -6,18 +6,21 @@ A Fortran layer for [AMD HIP](https://github.com/ROCm-Developer-Tools/HIP) to en
 ## Installation
 hip-fortran uses an autoconf build system. By default, hip-fortran is installed under `/opt/hip-fortran`.
 ```
-./configure
+./configure [--enable-nvcc] [--prefix=]
 make
 sudo make install
 ```
+The `--enable-nvcc` flag is required for building hip-fortran applications on systems with Nvidia hardware. Note that you will also want to have the `nvcc` compiler installed to build your applications with hip-fortran in this situation.
+
 An environment module file is included under `modulefiles/`. This modulefile assumes the default install path (`/opt/hip-fortran`) and defines `HIPFORTRAN_INCLUDE` and `HIPFORTRAN_LIB`.
 
 ## Docker
 You can obtain the latest Docker image build of hip-fortran with
 ```
-docker pull fluidnumerics/hip-fortran:latest
+docker pull fluidnumerics/hip-fortran:latest-hcc # For latest hcc-enabled build
+docker pull fluidnumerics/hip-fortran:latest-nvcc # For latest nvcc-enabled build
 ```
-Inside this container image: 
+Inside each container image: 
 * hip-fortran is installed under `/opt/hip-fortran`
 * `HIPFORTRAN_INCLUDE` is set to `/opt/hip-fortran/include`
 * `HIPFORTRAN_LIB` is set to `/opt/hip-fortran/lib`
