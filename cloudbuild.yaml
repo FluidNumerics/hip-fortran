@@ -11,13 +11,16 @@ steps:
   - 'build'
   - '--build-arg'
   - 'CONFIGURE_FLAGS=${_CONFIGURE_FLAGS}'
+  - '--build-arg'
+  - 'PLATFORM=${_PLATFORM}'
   - '-t'
-  - 'gcr.io/$PROJECT_ID/hip-fortran:${_IMAGE_TAG}'
+  - 'gcr.io/$PROJECT_ID/hip-fortran:${_VERSION}-${_PLATFORM}'
   - '.'
 
 images:
-- 'gcr.io/$PROJECT_ID/hip-fortran:${_IMAGE_TAG}'
+- 'gcr.io/$PROJECT_ID/hip-fortran:${_VERSION}-${_PLATFORM}'
 
 substitutions:
   _CONFIGURE_FLAGS: ''
-  _IMAGE_TAG: 'latest-hcc'
+  _PLATFORM: 'hcc'
+  _VERSION: 'latest'
