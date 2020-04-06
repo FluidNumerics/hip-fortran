@@ -1,5 +1,7 @@
 # In this directory, run the following command to build this builder.
 # $ gcloud builds submit . --config=cloudbuild.yaml
+#
+# Set _CONFIGURE_FLAGS=--enable-nvcc for nvcc builds (Nvidia Systems)
 
 steps:
 
@@ -8,10 +10,14 @@ steps:
   args:
   - 'build'
   - '--build-arg'
-  - 'version=0.0.1'
+  - 'CONFIGURE_FLAGS=${_CONFIGURE_FLAGS}'
   - '-t'
-  - 'gcr.io/$PROJECT_ID/hip-fortran:latest'
+  - 'gcr.io/$PROJECT_ID/hip-fortran:${_IMAGE_TAG}'
   - '.'
 
 images:
-- 'gcr.io/$PROJECT_ID/hip-fortran:latest'
+- 'gcr.io/$PROJECT_ID/hip-fortran:${_IMAGE_TAG}'
+
+substitutions:
+  _CONFIGURE_FLAGS: ''
+  _IMAGE_TAG: 'latest-hcc'
