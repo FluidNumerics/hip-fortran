@@ -54,6 +54,12 @@ Assuming you
 * Are using the included modulefile,
 * Have the hipcc compiler and all necessary dependencies,
  
+If you are building on a Nvidia system,
+```
+export HIP_PLATFORM=nvcc
+export CUDA_PATH=/path/to/cuda
+```
+The `CUDA_PATH` should be set to the parent directory for `bin/nvcc`. For example, if `which nvcc` returns `/opt/cuda/bin/nvcc`, then set `CUDA_PATH=/opt/cuda`.
 You can build this application with
 ```
 gfortran ${HIPFORTRAN_INCLUDE} -c my_module.f03
@@ -61,6 +67,7 @@ gfortran ${HIPFORTRAN_INCLUDE} -c main.f03
 hipcc -c my_module_hip.cpp
 hipcc -lgfortran main.o my_module.o my_module_hip.o ${HIPFORTRAN_INCLUDE} ${HIPFORTRAN_LIB} -o hip_test 
 ```
+
 
 *main.f03*
 ```fortran
