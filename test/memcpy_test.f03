@@ -5,20 +5,22 @@ USE hip_fortran
 IMPLICIT NONE
 
 
-  REAL(8), ALLOCATABLE, TARGET :: array(:,:)
-  TYPE(c_ptr) :: array_dev = c_null_ptr
+  REAL(8), ALLOCATABLE, TARGET :: a(:,:)
+  TYPE(c_ptr) :: a_dev = c_null_ptr
 
-    ! Allocate and initialize host array
-    ALLOCATE(array(0:10,0:10))
-    array = 10.0D0
+    ! Allocate and initialize host a
+    ALLOCATE(a(0:10,0:10))
+    a = 10.0D0
  
-    ! Allocate device array
-    CALL hfMalloc(array_dev, SIZEOF(array))
+    ! Allocate device a
+    CALL hfMalloc(a_dev, SIZEOF(a))
 
     ! Copy host memory to device memory
-    ! array_dev = array
-    CALL hfMemcpy(array_dev, c_loc(array), SIZEOF(array), hipMemcpyHostToDevice)
+    ! a_dev = a
+    CALL hipFortran(hipMemcpy(a_dev, c_loc(a), SIZEOF(a), hipMemcpyHostToDevice))
 
-    DEALLOCATE(array)
+    ! Clean up host and device memory
+    CALL hfFree(a_dev)
+    DEALLOCATE(a)
 
 END PROGRAM memcpy_test

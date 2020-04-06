@@ -11,6 +11,7 @@ IMPLICIT NONE
     !  Fortran interface for [hipGetLastError](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Error.html#hipgetlasterror)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipGetLastError
     END FUNCTION hipGetLastError
   END INTERFACE
@@ -21,6 +22,7 @@ IMPLICIT NONE
     !  Fortran interface for [hipPeekAtLastError](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Error.html#hippeakatlasterror)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipPeekAtLastError
     END FUNCTION hipPeekAtLastError
   END INTERFACE
@@ -31,6 +33,7 @@ IMPLICIT NONE
     !  Fortran interface for [hipGetErrorName](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Error.html#hipgeterrorname)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipError
       CHARACTER(KIND=c_char) :: hipGetErrorName
     END FUNCTION hipGetErrorName
@@ -42,6 +45,7 @@ IMPLICIT NONE
     !  Fortran interface for [hipGetLastError](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Error.html#hipgeterrorstring)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipError
       CHARACTER(KIND=c_char) :: hipGetErrorString
     END FUNCTION hipGetErrorString
@@ -53,6 +57,7 @@ IMPLICIT NONE
     !  Fortran interface for [hipDeviceSynchronize](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Device-management.html#hipdevicesynchronize)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipDeviceSynchronize
     END FUNCTION hipDeviceSynchronize
   END INTERFACE
@@ -62,6 +67,7 @@ IMPLICIT NONE
     !> Fortran interface for [hipMalloc](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Memory-Management.html#hipmalloc)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipMalloc
       TYPE(c_ptr), VALUE :: ptr
       INTEGER(c_size_t), VALUE :: sizeBytes
@@ -73,6 +79,7 @@ IMPLICIT NONE
     !> Fortran interface for [hipFree](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Memory-Management.html#hipfree)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipFree
       TYPE(c_ptr), VALUE :: ptr
     END FUNCTION hipFree
@@ -83,6 +90,7 @@ IMPLICIT NONE
     !> Fortran interface for [hipMemcpy](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Memory-Management.html#hipmemcpy)
       USE iso_c_binding
       USE hip_enum
+      IMPLICIT NONE
       INTEGER(KIND(hipSuccess)) :: hipMemcpy
       TYPE(c_ptr), VALUE :: dst
       TYPE(c_ptr), VALUE :: src
@@ -134,20 +142,4 @@ CONTAINS
 
   END SUBROUTINE hfFree
 
-  SUBROUTINE hfMemcpy(dst,src,sizeBytes,cpyKind)
-  !> routine
-  !  Executes hipMemcpy with error checking
-    IMPLICIT NONE
-    INTEGER(KIND(hipSuccess)) :: hipMemcpy
-    TYPE(c_ptr), VALUE :: dst
-    TYPE(c_ptr), VALUE :: src
-    INTEGER(c_size_t), VALUE :: sizeBytes
-    INTEGER(KIND(hipMemcpyHostToHost)), VALUE :: cpyKind
-
-      CALL hipFortran(hipMemcpy(dst,src,sizeBytes,cpyKind))
-
-  END SUBROUTINE hfMemcpy
-
-
-  
 END MODULE hip_fortran

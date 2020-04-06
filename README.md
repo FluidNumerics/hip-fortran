@@ -118,7 +118,7 @@ END MODULE my_module
 
 __global__ void myroutine_hipkernel(double *a, double *b, int n){
 
-  size_t i  = blockIdx.x*blockDim.x + threadIdx.x;
+  size_t i  = hipBlockIdx_x*hipBlockDim_x + hipThreadIdx_x;
   if ( i < (n+1)*(n+1) ) {
     b[i] = 2.0*a[i];
   }
