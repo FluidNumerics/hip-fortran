@@ -6,8 +6,6 @@ AC_PREFIX_DEFAULT(/opt/hip-fortran)
 AC_PROG_RANLIB
 AM_PROG_AR
 
-#AC_CONFIG_MACRO_DIRS([m4])
-
 # Find Fortran compilers
 AC_PROG_FC([gfortran pgfortran ifort])
 

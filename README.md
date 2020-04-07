@@ -122,7 +122,7 @@ IMPLICIT NONE
       IMPLICIT NONE
       TYPE(c_ptr) :: a, b
       INTEGER, VALUE :: N
-    END SUBROUTINE myRoutine(a,b,N)
+    END SUBROUTINE myRoutine
   END INTERFACE
 
 END MODULE my_module
