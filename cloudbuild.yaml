@@ -7,20 +7,14 @@ steps:
 
 - id : Build hip-fortran
   name: 'gcr.io/cloud-builders/docker'
-  args:
-  - 'build'
-  - '--build-arg'
-  - 'CONFIGURE_FLAGS=${_CONFIGURE_FLAGS}'
-  - '--build-arg'
-  - 'PLATFORM=${_PLATFORM}'
-  - '-t'
-  - 'gcr.io/$PROJECT_ID/hip-fortran:${_VERSION}-${_PLATFORM}'
-  - '.'
+  args: ['build','--build-arg','CONFIGURE_FLAGS=${_CONFIGURE_FLAGS}',
+                 '--build-arg','PLATFORM=${_PLATFORM}','.',
+                 '-t','gcr.io/$PROJECT_ID/hip-fortran:${_PLATFORM}-${_VERSION}']
 
 images:
-- 'gcr.io/$PROJECT_ID/hip-fortran:${_VERSION}-${_PLATFORM}'
+- 'gcr.io/$PROJECT_ID/hip-fortran:${_PLATFORM}-${_VERSION}'
 
 substitutions:
-  _CONFIGURE_FLAGS: ''
-  _PLATFORM: 'hcc'
+  _CONFIGURE_FLAGS: '--enable-nvcc'
+  _PLATFORM: 'nvcc'
   _VERSION: 'latest'
