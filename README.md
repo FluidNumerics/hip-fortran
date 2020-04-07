@@ -17,8 +17,8 @@ An environment module file is included under `modulefiles/`. This modulefile ass
 ## Docker
 You can obtain the latest Docker image build of hip-fortran with
 ```
-docker pull fluidnumerics/hip-fortran:latest-hcc # For latest hcc-enabled build
-docker pull fluidnumerics/hip-fortran:latest-nvcc # For latest nvcc-enabled build
+docker pull gcr.io/hip-fortran/hip-fortran:latest-hcc # For latest hcc-enabled build
+docker pull gcr.io/hip-fortran/hip-fortran:latest-nvcc # For latest nvcc-enabled build
 ```
 Inside each container image: 
 * hip-fortran is installed under `/opt/hip-fortran`
