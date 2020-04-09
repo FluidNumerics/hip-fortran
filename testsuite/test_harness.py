@@ -23,6 +23,7 @@ import shlex
 import json
 import re
 from docopt import docopt
+from datetime import datetime
 
 
 BUILD_ID=os.getenv('BUILD_ID')
@@ -50,7 +51,7 @@ def call_host_process(cmd):
                           stderr=subprocess.STDOUT)
 
 #    print(proc)
-    return proc.returncode, proc.stdout.decode('utf-8').split('\n')
+    return proc.returncode, proc.stdout.decode('utf-8')
 
 #END call_host_process
 
@@ -68,7 +69,10 @@ def build(config):
     exit_code = call_host_process('mkdir -p {}'.format(config['install_path']))
 
     k=0
-    results = config
+    results = {'date':datetime.utcnow().strftime("%m/%d/%Y, %H:%M:%S"),
+               'build_id':BUILD_ID,
+               'testsuite':[]}
+
     for test in config['testsuite']:
  
         stats = {}
@@ -78,7 +82,8 @@ def build(config):
         stats['run'] = {'exit_code':999,
                         'stdout':[],
                         'profile':[]}
-        results['testsuite'][k]['results'] = stats
+        results['testsuite'].append( {'name':test['name'],
+                                      'results':stats} )
         k+=1
 
     return results
@@ -106,16 +111,15 @@ def parse_nvprof_logfile(config,test):
 
             if pull_info: 
                 formatted_line=line.strip().split(':')[-1].lstrip().split()
-#                print("Line {}: {}".format(cnt,formatted_line[6:]))
                 stats.append({'time_percent':float(formatted_line[0].strip('%')),
                               'time':numsplit.match(formatted_line[1]).groups()[0],
                               'time_units':numsplit.match(formatted_line[1]).groups()[1],
                               'calls':int(formatted_line[2]),
-                              'avg_time':numsplit.match(formatted_line[3]).groups()[0],
+                              'avg_time':float(numsplit.match(formatted_line[3]).groups()[0]),
                               'avg_time_units':numsplit.match(formatted_line[3]).groups()[1],
-                              'min_time':numsplit.match(formatted_line[4]).groups()[0],
+                              'min_time':float(numsplit.match(formatted_line[4]).groups()[0]),
                               'min_time_units':numsplit.match(formatted_line[4]).groups()[1],
-                              'max_time':numsplit.match(formatted_line[5]).groups()[0],
+                              'max_time':float(numsplit.match(formatted_line[5]).groups()[0]),
                               'max_time_units':numsplit.match(formatted_line[5]).groups()[1],
                               'kernel_name':' '.join(formatted_line[6:])})
 
@@ -126,12 +130,12 @@ def parse_nvprof_logfile(config,test):
     
     return stats
 
-def profile(config):
+def profile(config, build_results):
 
-    results = config
+    results = build_results
     if config['profiler'] == 'nvprof':
         k=0
-        for test in config['testsuite']:
+        for test in build_results['testsuite']:
  
             if test['results']['build']['exit_code'] == 0:
                 cmd = 'nvprof --log-file {PATH}/{TEST}.nvprof {PATH}/{TEST}'.format(TEST=test['name'],
@@ -161,14 +165,24 @@ def main():
 
        config = load_tests(args['--config'])
        
-       config = build(config)
+       results = build(config)
 
-       config = profile(config)
+       results = profile(config,results)
        
-       print(json.dumps(config,sort_keys=True,indent=2))
+       config = {'config':config,
+                 'date':results['date'],
+                 'build_id':BUILD_ID}
+       f = open('config.json','w')
+       json.dump(config,f,sort_keys=True)
+       f.close()
+
+       f = open('results.json','w')
+       json.dump(results,f,sort_keys=True)
+       f.close()
        
 
 #END main
 
 if __name__ == '__main__':
     main()
+

@@ -6,3 +6,6 @@ config.log
 config.status
 *.a
 memcpy_test_*
+kernel_launch_test_*
+install/
+
