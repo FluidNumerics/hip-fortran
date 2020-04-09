@@ -50,7 +50,7 @@ def call_host_process(cmd):
                           stderr=subprocess.STDOUT)
 
 #    print(proc)
-    return proc.returncode
+    return proc.returncode, proc.stdout.decode('utf-8').split('\n')
 
 #END call_host_process
 
@@ -72,8 +72,12 @@ def build(config):
     for test in config['testsuite']:
  
         stats = {}
-        stats['build_exit_code'] = call_host_process('make {}'.format(test['name']))
-        stats['run_exit_code'] = 999
+        rc, stdout = call_host_process('make {}'.format(test['name']))
+        stats['build'] = {'exit_code':rc,
+                          'stdout':stdout}
+        stats['run'] = {'exit_code':999,
+                        'stdout':[],
+                        'profile':[]}
         results['testsuite'][k]['results'] = stats
         k+=1
 
@@ -129,14 +133,16 @@ def profile(config):
         k=0
         for test in config['testsuite']:
  
-            if test['results']['build_exit_code'] == 0:
+            if test['results']['build']['exit_code'] == 0:
                 cmd = 'nvprof --log-file {PATH}/{TEST}.nvprof {PATH}/{TEST}'.format(TEST=test['name'],
                                                                                     PATH=config['install_path'])
 
-                results['testsuite'][k]['results']['run_exit_code'] = call_host_process(cmd)
+                rc, stdout = call_host_process(cmd)
+                results['testsuite'][k]['results']['run']['exit_code'] = rc
+                results['testsuite'][k]['results']['run']['stdout'] = stdout
 
-                if results['testsuite'][k]['results']['run_exit_code'] == 0:
-                    results['testsuite'][k]['results']['profiles'] = parse_nvprof_logfile(config,test)
+                if results['testsuite'][k]['results']['run']['exit_code'] == 0:
+                    results['testsuite'][k]['results']['run']['profile'] = parse_nvprof_logfile(config,test)
                 
 
             k+=1
