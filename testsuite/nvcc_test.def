@@ -1,0 +1,13 @@
+Bootstrap: docker
+From: gcr.io/hip-fortran/hip-fortran:nvcc-latest
+
+%environment
+	export HIP_PLATFORM=nvcc
+	export CUDA_PATH=/usr/local/cuda
+
+%post
+	yum install -y python3 python3-pip
+        pip install docopt
+
+%test
+	python3 /usr/local/hip-fortran/testsuite/test_harness.py --config=/usr/local/hip-fortran/testsuite/hftests.json

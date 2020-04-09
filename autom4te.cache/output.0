@@ -3993,8 +3993,6 @@ else
   FCFLAGS+=" -DHCC"
 fi
 
-#AC_CONFIG_TESTDIR(tests)
-
 ac_config_files="$ac_config_files Makefile src/Makefile"
 
 

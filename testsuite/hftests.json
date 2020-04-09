@@ -1,0 +1,21 @@
+{
+  "hip_platform":"nvcc",
+  "fc":"gfortran",
+  "cxx":"hipcc",
+  "cxxflags":"",
+  "lib":"-lgfortran -lstdc++ -lm",
+  "include":"",
+  "opt":"-O0 -g",
+  "install_path":"/usr/local/hip-fortran/testsuite-install",
+  "profiler":"nvprof",
+  "testsuite":
+   [
+     {
+       "name":"test_memcpy"
+     },
+     {
+       "name":"test_kernel_launch"
+     }
+   ]
+  
+}

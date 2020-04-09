@@ -15,7 +15,7 @@ IMPLICIT NONE
     END SUBROUTINE kernel_cpu
 
     ! GPU execution is carried out when a,b are of TYPE c_ptr
-    SUBROUTINE kernel_gpu(a,b,N)
+    SUBROUTINE kernel_gpu(a,b,N) bind(c)
       USE iso_c_binding
       IMPLICIT NONE
       TYPE(c_ptr) :: a, b
@@ -23,8 +23,9 @@ IMPLICIT NONE
     END SUBROUTINE kernel_gpu
 
   END INTERFACE
+END MODULE kernel_module
 
-CONTAINS
+!CONTAINS
 
   SUBROUTINE kernel_cpu(a,b,N)
     IMPLICIT NONE
@@ -39,4 +40,3 @@ CONTAINS
 
   END SUBROUTINE kernel_cpu
 
-END MODULE kernel_module

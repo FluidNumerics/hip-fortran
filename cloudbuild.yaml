@@ -3,6 +3,7 @@
 #
 # Set _CONFIGURE_FLAGS=--enable-nvcc for nvcc builds (Nvidia Systems)
 
+timeout : 5400s
 steps:
 
 - id : Build hip-fortran

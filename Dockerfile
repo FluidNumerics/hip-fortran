@@ -13,6 +13,7 @@ RUN cd /build/hip-fortran &&\
 FROM gcr.io/hip-fortran/hip-base
 
 COPY --from=devel /usr/local/hip-fortran /usr/local/hip-fortran
+COPY --from=devel /build/hip-fortran/testsuite /usr/local/hip-fortran/testsuite
 ENV HIPFORTRAN_LIB="-L/usr/local/hip-fortran/lib -lhipfortran"
 ENV HIPFORTRAN_INCLUDE="-I/usr/local/hip-fortran/include"
 ENV HIP_PLATFORM=${PLATFORM}
