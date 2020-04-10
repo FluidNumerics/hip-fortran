@@ -15,11 +15,9 @@ The `--enable-nvcc` flag is required for building hip-fortran applications on sy
 An environment module file is included under `modulefiles/`. This modulefile assumes the default install path (`/opt/hip-fortran`) and defines `HIPFORTRAN_INCLUDE` and `HIPFORTRAN_LIB`.
 
 ## Docker
-This repository contains a [Dockerfile](./Dockerfile) that you can use to build the image on other branches of this repository.
-If you are working with Google Cloud Build, a [cloudbuild.yaml](./cloudbuild.yaml) file is also included.
-
+This repository contains a [Dockerfile](./Dockerfile) and [cloudbuild.yaml](./cloudbuild.yaml) that are used to build hip-fortran Docker images with Google Cloud Build.
   
-If you have a support subscription with Fluid Numerics, you can obtain the latest Docker image build of hip-fortran with
+If you have a support subscription with Fluid Numerics, you can obtain the latest Docker image build of hip-fortran using :
 ```
 docker pull gcr.io/hip-fortran/hip-fortran:latest-hcc # For latest hcc-enabled build
 docker pull gcr.io/hip-fortran/hip-fortran:latest-nvcc # For latest nvcc-enabled build
