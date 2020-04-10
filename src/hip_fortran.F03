@@ -84,6 +84,22 @@ IMPLICIT NONE
 
   INTERFACE
 #ifdef NVCC
+    FUNCTION hipStreamSynchronize(stream) bind(c, name="cudaStreamSynchronize")
+#else
+    FUNCTION hipStreamSynchronize(stream) bind(c, name="hipStreamSynchronize")
+#endif
+    !> interface
+    !  Fortran interface for [hipStreamSynchronize](https://rocm-documentation.readthedocs.io/en/latest/ROCm_API_References/HIP_API/Device-management.html#hipstreamsynchronize)
+      USE iso_c_binding
+      USE hip_enum
+      IMPLICIT NONE
+      INTEGER(KIND(hipSuccess)) :: stream
+      INTEGER(KIND(hipSuccess)) :: hipStreamSynchronize
+    END FUNCTION hipStreamSynchronize
+  END INTERFACE
+
+  INTERFACE
+#ifdef NVCC
     FUNCTION hipMalloc(ptr,sizeBytes) bind(c, name="cudaMalloc")
 #else
     FUNCTION hipMalloc(ptr,sizeBytes) bind(c, name="hipMalloc")

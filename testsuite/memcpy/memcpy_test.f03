@@ -15,7 +15,6 @@ IMPLICIT NONE
     a_size = SIZEOF(a)
  
     ! Allocate device a
-    WRITE(*,*) 'Array size:', a_size
     CALL hfMalloc(a_dev, a_size)
 
     ! Copy host memory to device memory
