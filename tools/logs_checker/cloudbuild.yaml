@@ -1,0 +1,22 @@
+# In this directory, run the following command to build this builder.
+# $ gcloud builds submit . --config=cloudbuild.yaml
+
+steps:
+- id : Pull Python Container
+  name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'pull'
+  - 'python:3.8.1-buster'
+
+- id : Build Logs Checker
+  name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--build-arg'
+  - 'version=v1.0'
+  - '-t'
+  - 'gcr.io/$PROJECT_ID/logs-checker:latest'
+  - '.'
+
+images:
+- 'gcr.io/$PROJECT_ID/logs-checker:latest'
