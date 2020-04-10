@@ -1,0 +1,46 @@
+{
+  "variables": {
+    "project_id": "",
+    "zone": "",
+    "subnet": ""
+  },
+  "builders": [{
+    "type": "googlecompute",
+    "project_id": "{{user `project_id`}}",
+    "source_image_family": "fluid-centos-7",
+    "source_image_project_id": "fluid-cluster-ops",
+    "disk_size": 10,
+    "zone": "{{user `zone`}}",
+    "subnetwork" :"{{user `subnet`}}",
+    "image_family": "centos-hip-nvcc",
+    "image_name": "centos-hip-nvcc-{{timestamp}}",
+    "instance_name":"centos-hip-nvcc-{{timestamp}}",
+    "tags":["cloudbuild"],
+    "ssh_username": "packer",
+    "startup_script_file": "startup-script.py"
+  }],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": ["sudo mkdir -p /scripts"]
+    },
+    {
+      "type": "file",
+      "source": "scripts",
+      "destination": "/tmp"
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo mv /tmp/scripts/ /scripts/"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo chown -R root:root /scripts"]
+    },
+    {
+      "type": "shell",
+      "inline": ["sudo chmod 755 /scripts/*"]
+    }
+  ]  
+}
+

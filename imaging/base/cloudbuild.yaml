@@ -1,0 +1,33 @@
+# To build locally ( recommended )
+#
+# cloud-build-local --substitutions=_OS=ubuntu,SHORT_SHA=local --dryrun=false .
+#
+#
+# To execute a build pipeline
+#
+#       gcloud builds submit .
+#
+# If you'd like to create a custom image family for the compute, login, and controller images,
+#
+#       gcloud builds submit . --substitutions=_FAMILY_TAG="_my-tag"
+#
+#
+
+steps:
+
+- id: Build Base CentOS Image
+  name: 'gcr.io/$PROJECT_ID/packer'
+  args: ["build",
+        "-force",
+        "-var","project_id=$PROJECT_ID",
+        "-var","zone=$_ZONE",
+        "-var","subnet=${_SUBNETWORK}",
+        './packer.json']
+  waitFor: ["-"]
+
+substitutions:
+
+    _ZONE : 'us-west3-a' # default value
+    _SUBNETWORK : ''
+
+timeout : 600s
