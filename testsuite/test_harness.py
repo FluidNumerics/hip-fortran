@@ -7,7 +7,7 @@ All Rights Reserved
 A tool to orchestrate tests of hip-fortran
 
 Usage: 
-  test_harness run [--config=<string>]
+  test_harness run [--config=<string>] [--outdir=<string>]
 
 Commands:
   run               Run tests in specified config
@@ -15,6 +15,7 @@ Commands:
 Options:
   -h --help            Display this help screen
   --config=<string>    Test configuration file [default: ./hftests.json]
+  --outdir=<string>    Path to report test output [default: ./]
 """
 
 import os
@@ -172,11 +173,11 @@ def main():
        config = {'config':config,
                  'date':results['date'],
                  'build_id':BUILD_ID}
-       f = open('config.json','w')
+       f = open('{}/config.json'.format(args['--outdir']),'w')
        json.dump(config,f,sort_keys=True)
        f.close()
 
-       f = open('results.json','w')
+       f = open('{}/results.json'.format(args['--outdir']),'w')
        json.dump(results,f,sort_keys=True)
        f.close()
        

@@ -10,3 +10,4 @@ kernel_launch_test_*
 install/
 results.json
 config.json
+hftests.*.json

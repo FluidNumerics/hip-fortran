@@ -1,0 +1,30 @@
+{
+  "variables": {
+    "project_id": "",
+    "zone": "",
+    "gcs_bucket":"",
+    "build_id": "",
+    "subnet": ""
+  },
+  "builders": [{
+    "type": "googlecompute",
+    "project_id": "{{user `project_id`}}",
+    "source_image_family": "centos-hip-nvcc",
+    "source_image_project_id": "hip-fortran",
+    "accelerator_type":"projects/{{user `project_id`}}/zones/{{user `zone`}}/acceleratorTypes/nvidia-tesla-k80",
+    "disk_size": 10,
+    "zone": "{{user `zone`}}",
+    "subnetwork" :"{{user `subnet`}}",
+    "image_family": "hip-fortran-nvcc",
+    "image_name": "hip-fortran-nvcc-{{timestamp}}",
+    "instance_name":"hip-fortran-nvcc-{{timestamp}}",
+    "tags":["cloudbuild"],
+    "metadata":{
+            "build_id":"{{user `build_id`}}",
+	    "gcs_bucket":"{{user `gcs_bucket`}}"
+    },
+    "ssh_username": "packer",
+    "startup_script_file": "imaging/startup-script.py"
+  }]
+}
+

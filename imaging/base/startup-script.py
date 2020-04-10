@@ -63,13 +63,8 @@ def install_packages():
             print "yum failed to install packages. Trying again in 5 seconds"
             time.sleep(5)
 
-        while subprocess.call(['pip', 'install', '--upgrade',
-            'google-api-python-client', 'oauth2client','google-cloud','google-cloud-pubsub','cython', 'pyyaml', 'pprint', 'parse', 'docopt']):
-            print "failed to install google python api client. Trying again 5 seconds."
-            time.sleep(5)
-            
         while subprocess.call(['pip3', 'install', '--upgrade',
-            'google-api-python-client', 'oauth2client','google-cloud','google-cloud-pubsub','cython', 'pyyaml', 'pprint', 'parse', 'docopt','jsonschema', 'dictdiffer']):
+            'google-api-python-client', 'oauth2client','google-cloud','docopt']):
             print "failed to install google python api client. Trying again 5 seconds."
             time.sleep(5)
 
