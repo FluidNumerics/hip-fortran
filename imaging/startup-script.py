@@ -59,7 +59,7 @@ def run_test_harness():
     build_config = load_build_config( )
     os.environ['BUILD_ID'] = build_config['build_id']
     hfpath = '/opt/hip-fortran/testsuite'
-    subprocess.run(shlex.split('python3 {PATH}/test_harness.py run --config={PATH}/hftests.json --outdir=/opt/hip-fortran')
+    subprocess.run(shlex.split('python3 {PATH}/test_harness.py run --config={PATH}/hftests.json --outdir=/opt/hip-fortran --silent')
 
 #END run_test_harness
 
