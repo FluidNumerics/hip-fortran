@@ -9,7 +9,7 @@ steps:
 - id : Build hip-fortran docker image
   name: 'gcr.io/cloud-builders/docker'
   args: ['build','--build-arg','CONFIGURE_FLAGS=${_CONFIGURE_FLAGS}',
-                 '--build-arg','PLATFORM=${_PLATFORM}','.',
+                 '--build-arg','PLATFORM=${_PLATFORM}','-f','cloudbuild/Dockerfile','.',
                  '-t','gcr.io/$PROJECT_ID/hip-fortran:${_PLATFORM}-${_VERSION}']
 
 
@@ -47,4 +47,5 @@ substitutions:
   _VERSION: 'latest'
   _GCS_LOGS_BUCKET : 'gs://hip-fortran_ci'
   _SUBNETWORK : ''
+  _ZONE : 'us-east1-c'
 

@@ -1,10 +1,6 @@
-FROM rocm/dev-centos-7
+FROM gcr.io/hip-fortran/hip-base as devel
 ARG CONFIGURE_FLAGS=""
 ARG PLATFORM=""
-
-# Install CUDA-Toolkit (for nvcc platforms)
-RUN yum-config-manager --add-repo http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo &&\
-    yum clean all && yum -y install cuda
 
 # Install hip-fortran
 RUN mkdir -p /build/hip-fortran
@@ -16,7 +12,6 @@ RUN cd /build/hip-fortran &&\
 
 FROM gcr.io/hip-fortran/hip-base
 
-COPY --from=devel /usr/local/cuda /usr/local/cuda
 COPY --from=devel /usr/local/hip-fortran /usr/local/hip-fortran
 COPY --from=devel /build/hip-fortran/testsuite /usr/local/hip-fortran/testsuite
 ENV HIPFORTRAN_LIB="-L/usr/local/hip-fortran/lib -lhipfortran"
