@@ -15,19 +15,29 @@ The `--enable-nvcc` flag is required for building hip-fortran applications on sy
 An environment module file is included under `modulefiles/`. This modulefile assumes the default install path (`/opt/hip-fortran`) and defines `HIPFORTRAN_INCLUDE` and `HIPFORTRAN_LIB`.
 
 ## Docker
-This repository contains a [Dockerfile](./Dockerfile) that you can use to build docker images
+This repository contains Dockerfiles for building docker images on [hcc](./docker/hcc/Dockerfile) and [nvcc](./docker/nvcc/Dockerfile) platforms.
 Inside each container image: 
 * hip-fortran is installed under `/opt/hip-fortran`
 * `HIPFORTRAN_INCLUDE` is set to `/opt/hip-fortran/include`
 * `HIPFORTRAN_LIB` is set to `/opt/hip-fortran/lib`
 
-### Google Container Registry
-Fluid Numerics uses a Google Cloud Build and the [cloudbuild.yaml](./cloudbuild.yaml) that is used to build hip-fortran Docker images that are hosted on Google Container Registry. If you have a support subscription with Fluid Numerics, you can obtain the maintained Docker image builds of hip-fortran using :
+
+Docker images can be found on [Dockerhub](https://hub.docker.com/repository/docker/fluidnumericsllc/hip-fortran)
+For the latest (master branch) Docker image for nvcc platforms,
 ```
-docker pull gcr.io/hip-fortran/hip-fortran:latest-hcc # For latest hcc-enabled build
-docker pull gcr.io/hip-fortran/hip-fortran:latest-nvcc # For latest nvcc-enabled build
+docker pull gcr.io/hip-fortran/hip-fortran:latest-nvcc 
 ```
-You can inquire about support from Fluid Numerics and access to supported Docker images by submitting a [Support Subscription Request](https://forms.gle/JeCGJ5FDgNcaEXxc8).
+
+For the latest (master branch) Docker image for hcc platforms,
+```
+docker pull gcr.io/hip-fortran/hip-fortran:latest-hcc
+```
+
+
+### Google Cloud Build (Complete testing)
+Fluid Numerics uses Google Cloud Build to automate builds and tests. 
+The [cloudbuild.yaml](./cloudbuild.yaml) provides the build configuration for creating and testing hcc and nvcc images.
+For pull requests to be approved, the builds described in this build configuration file must pass prior to merging.
 
 
 ## Usage
