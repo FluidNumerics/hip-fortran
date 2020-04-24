@@ -10,7 +10,6 @@ RUN cd /build/hip-fortran &&\
 
 FROM rocm/dev-centos-7
 
-COPY --from=devel /usr/local/cuda /usr/local/cuda
 COPY --from=devel /usr/local/hip-fortran /usr/local/hip-fortran
 COPY --from=devel /build/hip-fortran/testsuite /usr/local/hip-fortran/testsuite
 ENV HIPFORTRAN_LIB="-L/usr/local/hip-fortran/lib -lhipfortran"
