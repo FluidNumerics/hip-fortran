@@ -14,7 +14,7 @@ RUN cd /build/hip-fortran &&\
     /build/hip-fortran/configure ${CONFIGURE_FLAGS} --prefix=/usr/local/hip-fortran &&\
     make && make install
 
-FROM gcr.io/hip-fortran/hip-base
+FROM rocm/dev-centos-7
 
 COPY --from=devel /usr/local/cuda /usr/local/cuda
 COPY --from=devel /usr/local/hip-fortran /usr/local/hip-fortran
