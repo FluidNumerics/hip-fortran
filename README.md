@@ -12,14 +12,19 @@ sudo make install
 ```
 The `--enable-nvcc` flag is required for building hip-fortran applications on systems with Nvidia hardware. Note that you will also want to have the `nvcc` compiler installed to build your applications with hip-fortran in this situation.
 
-An environment module file is included under `modulefiles/`. This modulefile assumes the default install path (`/opt/hip-fortran`) and defines `HIPFORTRAN_INCLUDE` and `HIPFORTRAN_LIB`.
+An environment module file is included under `modulefiles/`. This modulefile assumes the default install path (`/usr/local/hip-fortran`) and defines `HIPFORTRAN_INCLUDE` and `HIPFORTRAN_LIB`.
 
 ## Docker
-This repository contains a [Dockerfile](./Dockerfile) that you can use to build docker images
+This repository contains a [Dockerfile](./Dockerfile) that you can use to build docker images. The resulting Docker images contains builds of hip-fortran for both hcc and nvcc platforms.
 Inside each container image: 
-* hip-fortran is installed under `/opt/hip-fortran`
-* `HIPFORTRAN_INCLUDE` is set to `/opt/hip-fortran/include`
-* `HIPFORTRAN_LIB` is set to `/opt/hip-fortran/lib`
+* hip-fortran is installed under `/usr/local/hip-fortran/nvcc` and `/usr/local/hip-fortran/hcc`
+* `HIPFORTRAN_NVCC_INCLUDE` is set to `/usr/local/hip-fortran/nvcc/include`
+* `HIPFORTRAN_NVCC_LIB` is set to `/usr/local/hip-fortran/nvcc/lib`
+* `HIPFORTRAN_HCC_INCLUDE` is set to `/usr/local/hip-fortran/hcc/include`
+* `HIPFORTRAN_HCC_LIB` is set to `/usr/local/hip-fortran/hcc/lib`
+
+Docker images are available on Dockerhub at [https://hub.docker.com/repository/docker/fluidnumericsllc/hip-fortran](https://hub.docker.com/repository/docker/fluidnumericsllc/hip-fortran)
+
 
 ### Google Container Registry
 Fluid Numerics uses a Google Cloud Build and the [cloudbuild.yaml](./cloudbuild.yaml) that is used to build hip-fortran Docker images that are hosted on Google Container Registry. If you have a support subscription with Fluid Numerics, you can obtain the maintained Docker image builds of hip-fortran using :

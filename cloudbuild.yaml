@@ -8,44 +8,12 @@ steps:
 
 - id : Build hip-fortran docker image
   name: 'gcr.io/cloud-builders/docker'
-  args: ['build','--build-arg','CONFIGURE_FLAGS=${_CONFIGURE_FLAGS}',
-                 '--build-arg','PLATFORM=${_PLATFORM}','-f','cloudbuild/Dockerfile','.',
-                 '-t','gcr.io/$PROJECT_ID/hip-fortran:${_PLATFORM}-${_VERSION}']
-
-
-- id : Build hip-fortran vm image and test
-  name: 'gcr.io/${PROJECT_ID}/packer'
-  args: ["build",
-        "-force",
-        "-var","project_id=$PROJECT_ID",
-        "-var","zone=$_ZONE",
-        "-var","gcs_bucket=${_GCS_LOGS_BUCKET}",
-        "-var","build_id=${BUILD_ID}",
-        "-var","subnet=${_SUBNETWORK}",
-        'imaging/packer.json']
-
-- id: Copy Startup Script Logs
-  name: 'gcr.io/cloud-builders/gsutil'
-  args: ["cp","${_GCS_LOGS_BUCKET}/${BUILD_ID}/*","/logs/"]
-  volumes:
-  - name: 'logs'
-    path: '/logs'
-  
-- id: Check Startup Script Logs
-  name: 'gcr.io/${PROJECT_ID}/logs-checker'
-  args: [""]
-  volumes:
-  - name: 'logs'
-    path: '/logs'
+  args: ['build','-f','cloudbuild/Dockerfile','.',
+                 '-t','gcr.io/$PROJECT_ID/hip-fortran:${_VERSION}']
 
 images:
-- 'gcr.io/$PROJECT_ID/hip-fortran:${_PLATFORM}-${_VERSION}'
+- 'gcr.io/$PROJECT_ID/hip-fortran:${_VERSION}'
 
 substitutions:
-  _CONFIGURE_FLAGS: '--enable-nvcc'
-  _PLATFORM: 'nvcc'
   _VERSION: 'latest'
-  _GCS_LOGS_BUCKET : 'gs://hip-fortran_ci'
-  _SUBNETWORK : ''
-  _ZONE : 'us-east1-c'
 
